@@ -163,3 +163,37 @@ for(file in filenames){
   print(file) #good practice to check for loop is doing what you think it's doing
   analyze(file) #analyze just prints plots
 }
+
+analyze <- function(filename) {
+  # Plots the average, min, and max inflammation over time.
+  # Input is character string of a csv file.
+  dat <- read.csv(file = filename, header = FALSE)
+  avg_day_inflammation <- apply(dat, 2, mean)
+  plot(avg_day_inflammation)
+  max_day_inflammation <- apply(dat, 2, max)
+  plot(max_day_inflammation)
+  min_day_inflammation <- apply(dat, 2, min)
+  plot(min_day_inflammation)
+}
+
+analyze_all <- function(pattern) {
+  # Runs the function analyze for each file in the current working directory
+  # that contains the given pattern.
+  filenames <- list.files(path = "data", pattern = pattern, full.names = TRUE)
+  for (f in filenames) {
+    analyze(f)
+  }
+}
+
+pdf("inflammation-01.pdf") #identifies which file to use
+analyze("inflammation-01.csv") #Performs analysis function specified earlier; can also add to function to specify destination for pdf file we're creating, and can alter specifications of the file
+dev.off() #ends adding things to the same pdf
+
+#Conditionals
+num <- 37
+if (num > 100) {
+  print("greater")
+} else {
+  print("not greater")
+}
+print("done")
